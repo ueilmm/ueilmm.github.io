@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Artist official website">
+<title>ARTIST</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  margin: 0;
+  background: #f7f7f7;
+  color: #111;
+  font-family: Arial, "Helvetica Neue", sans-serif;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  opacity: 0.6;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 32px;
+  padding: 30px 20px;
+}
+
+nav a {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.page {
+  display: none;
+  width: 90%;
+  max-width: 1000px;
+  margin: 35px auto 120px;
+}
+
+.page.active {
+  display: block;
+}
+
+h1, h2, p {
+  font-weight: 400;
+}
+
+.page-title {
+  margin: 0 0 40px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+/* HOME */
+
+.home-image {
+  width: 100%;
+  max-height: 650px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+.home-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 28px;
+  margin-top: 35px;
+}
+
+/* DISCOGRAPHY */
+
+.discography {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 45px 24px;
+}
+
+.release iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  display: block;
+}
+
+.release-title {
+  margin: 12px 0 0;
+  font-size: 12px;
+}
+
+.release-date {
+  margin: 3px 0 0;
+  color: #777;
+  font-size: 11px;
+}
+
+/* WORKS */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin-bottom: 35px;
+}
+
+.filter {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #777;
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.filter.active {
+  color: #111;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.works-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.work-item {
+  display: grid;
+  grid-template-columns: 85px 1fr 180px;
+  gap: 18px;
+  padding: 15px 0;
+  border-bottom: 1px solid #dedede;
+  align-items: start;
+}
+
+.work-date,
+.work-category {
+  color: #777;
+  font-size: 11px;
+}
+
+.work-name {
+  font-size: 12px;
+}
+
+/* PROFILE */
+
+.profile-content {
+  max-width: 600px;
+  line-height: 2.2;
+}
+
+.profile-image {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  margin-bottom: 35px;
+}
+
+/* CONTACT */
+
+.contact-content {
+  max-width: 600px;
+}
+
+.contact-content p {
+  margin-bottom: 24px;
+}
+
+.contact-content a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+footer {
+  padding: 25px 5%;
+  text-align: center;
+  color: #777;
+  font-size: 10px;
+}
+
+@media (max-width: 600px) {
+  nav {
+    gap: 18px;
+    padding: 24px 12px;
+  }
+
+  .page {
+    margin-top: 20px;
+    margin-bottom: 80px;
+  }
+
+  .discography {
+    gap: 30px 12px;
+  }
+
+  .work-item {
+    grid-template-columns: 65px 1fr;
+    gap: 8px 12px;
+  }
+
+  .work-category {
+    grid-column: 2;
+  }
+
+  .filters {
+    gap: 8px 16px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <a href="#home" data-page="home">Home</a>
+  <a href="#discography" data-page="discography">Discography</a>
+  <a href="#works" data-page="works">Works</a>
+  <a href="#profile" data-page="profile">Profile</a>
+  <a href="#contact" data-page="contact">Contact</a>
+</nav>
+
+<main>
+
+  <!-- HOME -->
+  <section id="home" class="page active">
+    <img
+      class="home-image"
+      src="images/main.jpg"
+      alt="Artist"
+    >
+
+    <div class="home-links">
+      <a href="#discography" data-page="discography">Discography</a>
+      <a href="#works" data-page="works">Works</a>
+      <a href="#profile" data-page="profile">Profile</a>
+      <a href="#contact" data-page="contact">Contact</a>
+
+      <a href="https://www.youtube.com/"
+         target="_blank" rel="noopener noreferrer">YouTube ↗</a>
+
+      <a href="https://www.instagram.com/"
+         target="_blank" rel="noopener noreferrer">Instagram ↗</a>
+    </div>
+  </section>
+
+  <!-- DISCOGRAPHY -->
+  <section id="discography" class="page">
+    <h1 class="page-title">Discography</h1>
+
+    <div class="discography">
+
+      <!-- 古い作品から順番に追加する -->
+
+      <article class="release">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/VIDEO_ID_01"
+          title="Release 01"
+          loading="lazy"
+          allowfullscreen>
+        </iframe>
+        <p class="release-title">Release 01</p>
+        <p class="release-date">2020.01</p>
+      </article>
+
+      <article class="release">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/VIDEO_ID_02"
+          title="Release 02"
+          loading="lazy"
+          allowfullscreen>
+        </iframe>
+        <p class="release-title">Release 02</p>
+        <p class="release-date">2021.01</p>
+      </article>
+
+      <article class="release">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/VIDEO_ID_03"
+          title="Release 03"
+          loading="lazy"
+          allowfullscreen>
+        </iframe>
+        <p class="release-title">Release 03</p>
+        <p class="release-date">2022.01</p>
+      </article>
+
+      <article class="release">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/VIDEO_ID_04"
+          title="Release 04"
+          loading="lazy"
+          allowfullscreen>
+        </iframe>
+        <p class="release-title">Release 04</p>
+        <p class="release-date">2023.01</p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- WORKS -->
+  <section id="works" class="page">
+    <h1 class="page-title">Works</h1>
+
+    <div class="filters">
+      <button class="filter active" data-filter="all">All</button>
+      <button class="filter" data-filter="music">Music</button>
+      <button class="filter" data-filter="video">Video</button>
+      <button class="filter" data-filter="other">Other</button>
+    </div>
+
+    <div class="works-list">
+
+      <article class="work-item" data-category="music">
+        <span class="work-date">2026.01</span>
+        <a class="work-name" href="#" target="_blank"
+           rel="noopener noreferrer">Project Title 01</a>
+        <span class="work-category">Music</span>
+      </article>
+
+      <article class="work-item" data-category="video">
+        <span class="work-date">2025.08</span>
+        <a class="work-name" href="#" target="_blank"
+           rel="noopener noreferrer">Project Title 02</a>
+        <span class="work-category">Video</span>
+      </article>
+
+      <article class="work-item" data-category="other">
+        <span class="work-date">2025.03</span>
+        <a class="work-name" href="#" target="_blank"
+           rel="noopener noreferrer">Project Title 03</a>
+        <span class="work-category">Other</span>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- PROFILE -->
+  <section id="profile" class="page">
+    <h1 class="page-title">Profile</h1>
+
+    <div class="profile-content">
+      <p>
+        Artist / Musician
+      </p>
+
+      <p>
+        Profile text goes here.
+      </p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="page">
+    <h1 class="page-title">Contact</h1>
+
+    <div class="contact-content">
+      <p>
+        For inquiries regarding music, collaborations
+        and other projects, please contact:
+      </p>
+
+      <p>
+        <a href="mailto:your-email@example.com">
+          your-email@example.com
+        </a>
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 ARTIST
+</footer>
+
+<script>
+const pages = document.querySelectorAll(".page");
+const navLinks = document.querySelectorAll("[data-page]");
+
+function showPage(pageName) {
+  const target = document.getElementById(pageName);
+
+  if (!target || !target.classList.contains("page")) {
+    pageName = "home";
+  }
+
+  pages.forEach(page => {
+    page.classList.toggle("active", page.id === pageName);
+  });
+
+  window.scrollTo(0, 0);
+}
+
+function navigate() {
+  const pageName = location.hash.slice(1) || "home";
+  showPage(pageName);
+}
+
+navLinks.forEach(link => {
+  link.addEventListener("click", event => {
+    const pageName = link.dataset.page;
+
+    if (!pageName) return;
+
+    event.preventDefault();
+
+    if (location.hash === "#" + pageName) {
+      showPage(pageName);
+    } else {
+      location.hash = pageName;
+    }
+  });
+});
+
+window.addEventListener("hashchange", navigate);
+navigate();
+
+/* Works category filter */
+const filterButtons = document.querySelectorAll(".filter");
+const workItems = document.querySelectorAll(".work-item");
+
+filterButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    const selected = button.dataset.filter;
+
+    filterButtons.forEach(item => {
+      item.classList.toggle("active", item === button);
+    });
+
+    workItems.forEach(work => {
+      work.style.display =
+        selected === "all" ||
+        work.dataset.category === selected
+          ? "grid"
+          : "none";
+    });
+  });
+});
+</script>
+
+</body>
+</html>
