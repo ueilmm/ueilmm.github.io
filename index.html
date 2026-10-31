@@ -12,6 +12,15 @@
   box-sizing: border-box;
 }
 
+.page img {
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+
+.page img.is-visible {
+  opacity: 1;
+}
+
 body {
   margin: 0;
   background: #f7f7f7;
@@ -114,10 +123,6 @@ nav a {
   aspect-ratio: 16 / 9;
   object-fit: cover;
   background: #e8e8e8;
-}
-
-.discography:not(.images-ready) .release-image {
-  visibility: hidden;
 }
 
 .release-title {
@@ -547,7 +552,7 @@ nav a {
     </div>
   </article>
 
-  <article class="work-item" data-category="remix" data-stream-image="images/Works/邂逅 (ueil Remix).WEBP">
+  <article class="work-item" data-category="remix" data-stream-image="images/Works/邂逅 (ueil Remix).jpg">
     <span class="work-date">2024/03</span>
     <div class="work-info">
       <div class="work-name">花譜 - 邂逅 (ueil Remix)</div>
@@ -659,22 +664,22 @@ nav a {
 
 const pages = document.querySelectorAll(".page");
 
-let discographyImagesReady = false;
-function showDiscographyImagesTogether() {
-  if (discographyImagesReady) return;
-  const gallery = document.querySelector(".discography");
-  const images = [...gallery.querySelectorAll(".release-image")];
+let imageRevealRun = 0;
+function revealPageImagesTogether(pageId) {
+  const run = ++imageRevealRun;
+  const page = document.getElementById(pageId);
+  const images = [...page.querySelectorAll("img")];
+  images.forEach(image => image.classList.remove("is-visible"));
   Promise.all(images.map(image => new Promise(resolve => {
     const ready = () => image.decode ? image.decode().catch(() => {}).then(resolve) : resolve();
-    if (image.complete) {
-      ready();
-    } else {
+    if (image.complete) ready();
+    else {
       image.addEventListener("load", ready, { once: true });
       image.addEventListener("error", resolve, { once: true });
     }
   }))).then(() => {
-    gallery.classList.add("images-ready");
-    discographyImagesReady = true;
+    if (run !== imageRevealRun) return;
+    requestAnimationFrame(() => images.forEach(image => image.classList.add("is-visible")));
   });
 }
 
@@ -713,7 +718,7 @@ function showPage(pageName) {
   });
 
   if (validPage === "work-detail-page") renderWorkDetail(pageName);
-  if (validPage === "discography") showDiscographyImagesTogether();
+  revealPageImagesTogether(validPage);
 
   window.scrollTo(0, 0);
 }
