@@ -685,12 +685,15 @@ function renderWorkDetail(detailId) {
   const detail = document.getElementById("work-detail-page");
   const item = detailId && document.getElementById(detailId);
   if (!item) {
-    detail.innerHTML = '<h1 class="page-title">Works</h1><p>作品が見つかりません。</p><a class="work-detail-back" href="#works">← Works一覧へ戻る</a>';
+    detail.innerHTML = '<h1 class="page-title">Works</h1><p>作品が見つかりません。</p><a class="work-detail-back" href="#works">←Works</a>';
     return;
   }
-  const links = [...item.querySelectorAll(".work-links a")];
+  const links = [...item.querySelectorAll(".work-links a")].sort((a, b) => {
+    const priority = label => label.trim().toLowerCase() === "streaming" ? 0 : 1;
+    return priority(a.textContent) - priority(b.textContent);
+  });
   const streamImage = item.dataset.streamImage;
-  detail.innerHTML = `<a class="work-detail-back" href="#works">← Works一覧へ戻る</a>${streamImage ? `<img class="work-detail-image" src="${streamImage}" alt="" loading="eager" fetchpriority="high" decoding="async" width="240" height="240">` : '<div class="work-detail-image-placeholder" aria-hidden="true"></div>'}<div class="work-detail-links"></div>`;
+  detail.innerHTML = `<a class="work-detail-back" href="#works">←Works</a>${streamImage ? `<img class="work-detail-image" src="${streamImage}" alt="" loading="eager" fetchpriority="high" decoding="async" width="240" height="240">` : '<div class="work-detail-image-placeholder" aria-hidden="true"></div>'}<div class="work-detail-links"></div>`;
   const linkArea = detail.querySelector(".work-detail-links");
   links.forEach(link => {
     const copy = document.createElement("a");
