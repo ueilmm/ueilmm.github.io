@@ -5,20 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Artist official website">
 <link rel="preload" as="image" href="images/DSCF0984.JPG" fetchpriority="high">
-<title>ARTIST</title>
+<title>ueil</title>
 
 <style>
 * {
   box-sizing: border-box;
-}
-
-.page img {
-  opacity: 0;
-  transition: opacity .5s ease;
-}
-
-.page img.is-visible {
-  opacity: 1;
 }
 
 body {
@@ -67,6 +58,19 @@ nav a {
   display: block;
 }
 
+.page.active.page-waiting {
+  opacity: 0;
+}
+
+.page.active.page-entering {
+  animation: page-fade-in .5s ease both;
+}
+
+@keyframes page-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 .page-title {
   margin: 0 0 35px;
   font-size: 12px;
@@ -96,6 +100,11 @@ nav a {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  transition: opacity .5s ease;
+}
+
+.home-image.is-fading-out {
+  opacity: 0;
 }
 
 .home-image[hidden],
@@ -104,9 +113,15 @@ nav a {
 }
 
 .home-image-message {
+  opacity: 0;
+  transition: opacity .5s ease;
   font-size: 11px;
   font-size: 11px;
   line-height: 1;
+}
+
+.home-image-message.is-visible {
+  opacity: 1;
 }
 
 /* Discography */
@@ -187,6 +202,10 @@ nav a {
   align-items: start;
   padding: 15px 0;
   border-bottom: 1px solid #dedede;
+}
+
+.work-item.filter-fade-in {
+  animation: page-fade-in .5s ease both;
 }
 
 .work-date,
@@ -363,7 +382,7 @@ nav a {
 <section id="home" class="page active">
   <button id="home-image-toggle" class="home-image-frame" type="button" aria-label="Home画像を切り替える">
     <img class="home-image" src="images/DSCF0984.JPG" alt="" fetchpriority="high">
-    <span class="home-image-message" hidden>涙の在り方は黒い膜の中</span>
+    <span class="home-image-message" hidden>涙の在り処は黒い膜の中</span>
   </button>
 </section>
 
@@ -664,44 +683,50 @@ nav a {
 
 const pages = document.querySelectorAll(".page");
 
-let imageRevealRun = 0;
-function revealPageImagesTogether(pageId) {
-  const run = ++imageRevealRun;
+function waitForPageImages(pageId) {
   const page = document.getElementById(pageId);
   const images = [...page.querySelectorAll("img")];
-  images.forEach(image => image.classList.remove("is-visible"));
-  Promise.all(images.map(image => new Promise(resolve => {
+  return Promise.all(images.map(image => new Promise(resolve => {
     const ready = () => image.decode ? image.decode().catch(() => {}).then(resolve) : resolve();
     if (image.complete) ready();
     else {
       image.addEventListener("load", ready, { once: true });
       image.addEventListener("error", resolve, { once: true });
     }
-  }))).then(() => {
-    if (run !== imageRevealRun) return;
-    requestAnimationFrame(() => images.forEach(image => image.classList.add("is-visible")));
-  });
+  })));
 }
 
 const homeImageToggle = document.getElementById("home-image-toggle");
-let homeMessageTimer;
+let homeMessageTimers = [];
 function resetHomeImage() {
   if (!homeImageToggle) return;
-  clearTimeout(homeMessageTimer);
-  homeImageToggle.querySelector(".home-image").hidden = false;
-  homeImageToggle.querySelector(".home-image-message").hidden = true;
+  homeMessageTimers.forEach(clearTimeout);
+  homeMessageTimers = [];
+  const image = homeImageToggle.querySelector(".home-image");
+  const message = homeImageToggle.querySelector(".home-image-message");
+  image.hidden = false;
+  image.classList.remove("is-fading-out");
+  message.classList.remove("is-visible");
+  message.hidden = true;
 }
 
 if (homeImageToggle) {
   const homeImage = homeImageToggle.querySelector(".home-image");
   const homeMessage = homeImageToggle.querySelector(".home-image-message");
   homeImageToggle.addEventListener("click", () => {
-    homeImage.hidden = true;
-    homeMessage.hidden = false;
-    clearTimeout(homeMessageTimer);
-    homeMessageTimer = setTimeout(() => {
-      homeMessage.hidden = true;
-    }, 2000);
+    resetHomeImage();
+    homeImage.classList.add("is-fading-out");
+    homeMessageTimers.push(setTimeout(() => {
+      homeImage.hidden = true;
+      homeMessage.hidden = false;
+      requestAnimationFrame(() => homeMessage.classList.add("is-visible"));
+      homeMessageTimers.push(setTimeout(() => {
+        homeMessage.classList.remove("is-visible");
+        homeMessageTimers.push(setTimeout(() => {
+          homeMessage.hidden = true;
+        }, 500));
+      }, 2500));
+    }, 500));
   });
 }
 
@@ -714,14 +739,27 @@ function showPage(pageName) {
     : (target && target.classList.contains("page") ? pageName : "home");
 
   pages.forEach(page => {
+    page.classList.remove("page-waiting", "page-entering");
     page.classList.toggle("active", page.id === validPage);
   });
 
   if (validPage === "work-detail-page") renderWorkDetail(pageName);
-  revealPageImagesTogether(validPage);
+  const activePage = document.getElementById(validPage);
+  activePage.classList.add("page-waiting");
+  const thisTransition = ++pageTransitionId;
+  waitForPageImages(validPage).then(() => {
+    if (thisTransition !== pageTransitionId) return;
+    requestAnimationFrame(() => {
+      activePage.classList.remove("page-waiting");
+      void activePage.offsetWidth;
+      activePage.classList.add("page-entering");
+    });
+  });
 
   window.scrollTo(0, 0);
 }
+
+let pageTransitionId = 0;
 
 function renderWorkDetail(detailId) {
   const detail = document.getElementById("work-detail-page");
@@ -800,7 +838,12 @@ filterButtons.forEach(button => {
       const shouldShow =
         selected === "all" || categories.includes(selected);
 
+      work.classList.remove("filter-fade-in");
       work.style.display = shouldShow ? "grid" : "none";
+      if (shouldShow) {
+        void work.offsetWidth;
+        work.classList.add("filter-fade-in");
+      }
     });
   });
 });
