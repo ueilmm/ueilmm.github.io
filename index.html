@@ -116,6 +116,10 @@ nav a {
   background: #e8e8e8;
 }
 
+.discography:not(.images-ready) .release-image {
+  visibility: hidden;
+}
+
 .release-title {
   margin: 10px 0 0;
   font-size: 12px;
@@ -369,7 +373,7 @@ nav a {
   <!-- 2026 -->
 
   <article class="release">
-    <img class="release-image" src="images/赤い潮風.jpg" alt="赤い潮風" loading="lazy">
+    <img class="release-image" src="images/赤い潮風.jpg" alt="赤い潮風" loading="eager">
     <p class="release-title">赤い潮風</p>
     <p class="release-date">2026/07/31</p>
     <div class="release-links">
@@ -381,7 +385,7 @@ nav a {
   <!-- 2025 -->
 
   <article class="release">
-    <img class="release-image" src="images/ベール.jpg" alt="ベール" loading="lazy">
+    <img class="release-image" src="images/ベール.jpg" alt="ベール" loading="eager">
     <p class="release-title">ベール</p>
     <p class="release-date">2025/08/24</p>
     <div class="release-links">
@@ -393,7 +397,7 @@ nav a {
   <!-- 2024 -->
 
   <article class="release">
-    <img class="release-image" src="images/fakegreen.jpg" alt="fakegreen" loading="lazy">
+    <img class="release-image" src="images/fakegreen.jpg" alt="fakegreen" loading="eager">
     <p class="release-title">fakegreen</p>
     <p class="release-date">2024/12/14</p>
     <div class="release-links">
@@ -403,7 +407,7 @@ nav a {
   </article>
 
   <article class="release">
-    <img class="release-image" src="images/frostbite.jpg" alt="frostbite" loading="lazy">
+    <img class="release-image" src="images/frostbite.jpg" alt="frostbite" loading="eager">
     <p class="release-title">frostbite</p>
     <p class="release-date">2024/12/14</p>
     <div class="release-links">
@@ -412,7 +416,7 @@ nav a {
   </article>
 
   <article class="release">
-    <img class="release-image" src="images/片方だけが燃えている.jpg" alt="片方だけが燃えている" loading="lazy">
+    <img class="release-image" src="images/片方だけが燃えている.jpg" alt="片方だけが燃えている" loading="eager">
     <p class="release-title">片方だけが燃えている</p>
     <p class="release-date">2024/01/27</p>
     <div class="release-links">
@@ -424,7 +428,7 @@ nav a {
   <!-- 2023 -->
 
   <article class="release">
-    <img class="release-image" src="images/⋆.jpg" alt="⋆" loading="lazy">
+    <img class="release-image" src="images/⋆.jpg" alt="⋆" loading="eager">
     <p class="release-title">⋆</p>
     <p class="release-date">2023/11/10</p>
     <div class="release-links">
@@ -433,7 +437,7 @@ nav a {
   </article>
 
   <article class="release">
-    <img class="release-image" src="images/LC.jpg" alt="LC" loading="lazy">
+    <img class="release-image" src="images/LC.jpg" alt="LC" loading="eager">
     <p class="release-title">LC</p>
     <p class="release-date">2023/06/08</p>
     <div class="release-links">
@@ -445,7 +449,7 @@ nav a {
   <!-- 2022 -->
 
   <article class="release">
-    <img class="release-image" src="images/dirtyspring.jpg" alt="dirtyspring" loading="lazy">
+    <img class="release-image" src="images/dirtyspring.jpg" alt="dirtyspring" loading="eager">
     <p class="release-title">dirtyspring</p>
     <p class="release-date">2022/07/15</p>
     <div class="release-links">
@@ -455,7 +459,7 @@ nav a {
   </article>
 
   <article class="release">
-    <img class="release-image" src="images/てんしみたいに.jpg" alt="てんしみたいに" loading="lazy">
+    <img class="release-image" src="images/てんしみたいに.jpg" alt="てんしみたいに" loading="eager">
     <p class="release-title">てんしみたいに</p>
     <p class="release-date">2022/06/03</p>
     <div class="release-links">
@@ -655,6 +659,25 @@ nav a {
 
 const pages = document.querySelectorAll(".page");
 
+let discographyImagesReady = false;
+function showDiscographyImagesTogether() {
+  if (discographyImagesReady) return;
+  const gallery = document.querySelector(".discography");
+  const images = [...gallery.querySelectorAll(".release-image")];
+  Promise.all(images.map(image => new Promise(resolve => {
+    const ready = () => image.decode ? image.decode().catch(() => {}).then(resolve) : resolve();
+    if (image.complete) {
+      ready();
+    } else {
+      image.addEventListener("load", ready, { once: true });
+      image.addEventListener("error", resolve, { once: true });
+    }
+  }))).then(() => {
+    gallery.classList.add("images-ready");
+    discographyImagesReady = true;
+  });
+}
+
 const homeImageToggle = document.getElementById("home-image-toggle");
 let homeMessageTimer;
 function resetHomeImage() {
@@ -690,6 +713,7 @@ function showPage(pageName) {
   });
 
   if (validPage === "work-detail-page") renderWorkDetail(pageName);
+  if (validPage === "discography") showDiscographyImagesTogether();
 
   window.scrollTo(0, 0);
 }
