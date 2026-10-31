@@ -316,13 +316,21 @@ nav a {
   }
 
   .work-info {
-    flex-direction: column;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    justify-content: start;
+    justify-items: start;
     min-width: 0;
   }
 
+  .work-name,
   .work-category {
+    width: 100%;
     text-align: left;
+  }
+
+  .work-category {
+    margin-top: 0;
   }
 }
 </style>
