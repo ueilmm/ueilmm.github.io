@@ -11,10 +11,6 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: auto;
-}
-
 body {
   margin: 0;
   background: #f7f7f7;
@@ -30,99 +26,125 @@ a {
 }
 
 a:hover {
-  opacity: 0.6;
+  opacity: 0.65;
 }
+
+/* Navigation */
 
 nav {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 32px;
-  padding: 30px 20px;
+  gap: 30px;
+  padding: 28px 20px;
 }
 
 nav a {
   font-size: 11px;
-  letter-spacing: 0.04em;
 }
+
+/* Pages */
 
 .page {
   display: none;
   width: 90%;
   max-width: 1000px;
-  margin: 35px auto 120px;
+  margin: 35px auto 100px;
 }
 
 .page.active {
   display: block;
 }
 
-h1, h2, p {
-  font-weight: 400;
-}
-
 .page-title {
-  margin: 0 0 40px;
+  margin: 0 0 35px;
   font-size: 12px;
-  letter-spacing: 0.08em;
+  font-weight: 400;
+  letter-spacing: .08em;
 }
 
-/* HOME */
+/* Home */
+
+.home-image-frame {
+  display: grid;
+  place-items: center;
+  width: 60%;
+  max-width: 480px;
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  border: 0;
+  margin: 0 auto;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
 
 .home-image {
-  width: 100%;
-  max-height: 650px;
-  object-fit: contain;
   display: block;
-  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
-.home-links {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 28px;
-  margin-top: 35px;
+.home-image[hidden],
+.home-image-message[hidden] {
+  display: none;
 }
 
-/* DISCOGRAPHY */
+.home-image-message {
+  font-size: 11px;
+  font-size: 11px;
+  line-height: 1;
+}
+
+/* Discography */
 
 .discography {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 45px 24px;
+  gap: 40px 24px;
 }
 
-.release iframe {
+.release-image {
+  display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
-  border: 0;
-  display: block;
+  object-fit: cover;
+  background: #e8e8e8;
 }
 
 .release-title {
-  margin: 12px 0 0;
+  margin: 10px 0 0;
   font-size: 12px;
 }
 
 .release-date {
-  margin: 3px 0 0;
+  margin: 2px 0 0;
   color: #777;
   font-size: 11px;
 }
 
-/* WORKS */
+.release-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 5px;
+  font-size: 11px;
+}
+
+/* Works */
 
 .filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px 20px;
-  margin-bottom: 35px;
+  gap: 18px;
+  margin-bottom: 30px;
 }
 
 .filter {
-  border: 0;
   padding: 0;
+  border: 0;
   background: transparent;
   color: #777;
   font: inherit;
@@ -143,11 +165,11 @@ h1, h2, p {
 
 .work-item {
   display: grid;
-  grid-template-columns: 85px 1fr 180px;
+  grid-template-columns: 90px minmax(0, 1fr);
   gap: 18px;
+  align-items: start;
   padding: 15px 0;
   border-bottom: 1px solid #dedede;
-  align-items: start;
 }
 
 .work-date,
@@ -157,25 +179,64 @@ h1, h2, p {
 }
 
 .work-name {
+  min-width: 0;
   font-size: 12px;
 }
 
-/* PROFILE */
+.work-name a { display: inline-block; }
+.work-detail-back { display: inline-block; margin-bottom: 28px; color: #777; font-size: 11px; }
+.work-detail-image,
+.work-detail-image-placeholder { display: block; width: min(100%, 240px); aspect-ratio: 1 / 1; object-fit: cover; margin: 22px 0 30px; background: #e8e8e8; }
+.work-detail-title { margin: 0; font-size: 18px; font-weight: 400; }
+.work-detail-links { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 24px; }
+.work-detail-links a { text-decoration: underline; text-underline-offset: 3px; }
+.works-list .work-links { display: none; }
+
+.work-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  min-width: 0;
+}
+
+.work-category {
+  flex: 0 0 auto;
+  margin-top: 0;
+  text-align: right;
+}
+
+.work-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 5px;
+  font-size: 11px;
+}
+
+.work-links a {
+  white-space: nowrap;
+}
+
+/* Profile */
 
 .profile-content {
   max-width: 600px;
-  line-height: 2.2;
+  line-height: 1.8;
 }
 
-.profile-image {
+.profile-photo {
   display: block;
-  width: 100%;
-  max-width: 500px;
+  width: min(100%, 256px);
   height: auto;
-  margin-bottom: 35px;
+  margin: 0 0 28px;
 }
 
-/* CONTACT */
+.profile-content p {
+  margin-bottom: 24px;
+}
+
+/* Contact */
 
 .contact-content {
   max-width: 600px;
@@ -185,17 +246,38 @@ h1, h2, p {
   margin-bottom: 24px;
 }
 
+.contact-content > p:first-child {
+  margin-bottom: 0;
+}
+
+.contact-notes {
+  margin-top: calc(2 * 1.8em);
+  line-height: 1.8;
+}
+
+.contact-notes p {
+  margin: 0;
+}
+
 .contact-content a {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
-footer {
-  padding: 25px 5%;
-  text-align: center;
-  color: #777;
-  font-size: 10px;
+/* Links */
+
+.links-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
 }
+
+.links-list a {
+  font-size: 12px;
+}
+
+/* Mobile */
 
 @media (max-width: 600px) {
   nav {
@@ -205,7 +287,11 @@ footer {
 
   .page {
     margin-top: 20px;
-    margin-bottom: 80px;
+    margin-bottom: 70px;
+  }
+
+  .home-image-frame {
+    width: 90%;
   }
 
   .discography {
@@ -213,16 +299,13 @@ footer {
   }
 
   .work-item {
-    grid-template-columns: 65px 1fr;
+    grid-template-columns: 65px minmax(0, 1fr);
     gap: 8px 12px;
   }
 
-  .work-category {
-    grid-column: 2;
-  }
-
-  .filters {
-    gap: 8px 16px;
+  .work-info {
+    flex-wrap: wrap;
+    min-width: 0;
   }
 }
 </style>
@@ -236,193 +319,386 @@ footer {
   <a href="#works" data-page="works">Works</a>
   <a href="#profile" data-page="profile">Profile</a>
   <a href="#contact" data-page="contact">Contact</a>
+  <a href="#links" data-page="links">Links</a>
 </nav>
 
 <main>
 
-  <!-- HOME -->
-  <section id="home" class="page active">
-    <img
-      class="home-image"
-      src="images/main.jpg"
-      alt="Artist"
-    >
+<!-- Home -->
 
-    <div class="home-links">
-      <a href="#discography" data-page="discography">Discography</a>
-      <a href="#works" data-page="works">Works</a>
-      <a href="#profile" data-page="profile">Profile</a>
-      <a href="#contact" data-page="contact">Contact</a>
+<section id="home" class="page active">
+  <button id="home-image-toggle" class="home-image-frame" type="button" aria-label="Home画像を切り替える">
+    <img class="home-image" src="images/DSCF0984.JPG" alt="" fetchpriority="high">
+    <span class="home-image-message" hidden>涙の在り方は黒い膜の中</span>
+  </button>
+</section>
 
-      <a href="https://www.youtube.com/"
-         target="_blank" rel="noopener noreferrer">YouTube ↗</a>
 
-      <a href="https://www.instagram.com/"
-         target="_blank" rel="noopener noreferrer">Instagram ↗</a>
+<!-- Discography -->
+
+<section id="discography" class="page">
+<h1 class="page-title">Discography</h1>
+
+<div class="discography">
+
+  <!-- 2026 -->
+
+  <article class="release">
+    <img class="release-image" src="images/赤い潮風.jpg" alt="赤い潮風" loading="lazy">
+    <p class="release-title">赤い潮風</p>
+    <p class="release-date">2026/07/31</p>
+    <div class="release-links">
+      <a href="https://linkco.re/1xFeFPMC" target="_blank" rel="noopener noreferrer">Streaming →</a>
+      <a href="https://youtu.be/xxrbmWilnqg" target="_blank" rel="noopener noreferrer">MV →</a>
     </div>
-  </section>
+  </article>
 
-  <!-- DISCOGRAPHY -->
-  <section id="discography" class="page">
-    <h1 class="page-title">Discography</h1>
+  <!-- 2025 -->
 
-    <div class="discography">
-
-      <!-- 古い作品から順番に追加する -->
-
-      <article class="release">
-        <iframe
-          src="https://www.youtube-nocookie.com/embed/VIDEO_ID_01"
-          title="Release 01"
-          loading="lazy"
-          allowfullscreen>
-        </iframe>
-        <p class="release-title">Release 01</p>
-        <p class="release-date">2020.01</p>
-      </article>
-
-      <article class="release">
-        <iframe
-          src="https://www.youtube-nocookie.com/embed/VIDEO_ID_02"
-          title="Release 02"
-          loading="lazy"
-          allowfullscreen>
-        </iframe>
-        <p class="release-title">Release 02</p>
-        <p class="release-date">2021.01</p>
-      </article>
-
-      <article class="release">
-        <iframe
-          src="https://www.youtube-nocookie.com/embed/VIDEO_ID_03"
-          title="Release 03"
-          loading="lazy"
-          allowfullscreen>
-        </iframe>
-        <p class="release-title">Release 03</p>
-        <p class="release-date">2022.01</p>
-      </article>
-
-      <article class="release">
-        <iframe
-          src="https://www.youtube-nocookie.com/embed/VIDEO_ID_04"
-          title="Release 04"
-          loading="lazy"
-          allowfullscreen>
-        </iframe>
-        <p class="release-title">Release 04</p>
-        <p class="release-date">2023.01</p>
-      </article>
-
+  <article class="release">
+    <img class="release-image" src="images/ベール.jpg" alt="ベール" loading="lazy">
+    <p class="release-title">ベール</p>
+    <p class="release-date">2025/08/24</p>
+    <div class="release-links">
+      <a href="https://linkco.re/0xCMyq7G?lang=ja" target="_blank" rel="noopener noreferrer">Streaming →</a>
+      <a href="https://youtu.be/-xQ8IVR3hus" target="_blank" rel="noopener noreferrer">MV →</a>
     </div>
-  </section>
+  </article>
 
-  <!-- WORKS -->
-  <section id="works" class="page">
-    <h1 class="page-title">Works</h1>
+  <!-- 2024 -->
 
-    <div class="filters">
-      <button class="filter active" data-filter="all">All</button>
-      <button class="filter" data-filter="music">Music</button>
-      <button class="filter" data-filter="video">Video</button>
-      <button class="filter" data-filter="other">Other</button>
+  <article class="release">
+    <img class="release-image" src="images/fakegreen.jpg" alt="fakegreen" loading="lazy">
+    <p class="release-title">fakegreen</p>
+    <p class="release-date">2024/12/14</p>
+    <div class="release-links">
+      <a href="https://linkco.re/Yt1DnusA" target="_blank" rel="noopener noreferrer">Streaming →</a>
+      <a href="https://youtu.be/b5Ftfzqd2Y8" target="_blank" rel="noopener noreferrer">MV →</a>
     </div>
+  </article>
 
-    <div class="works-list">
-
-      <article class="work-item" data-category="music">
-        <span class="work-date">2026.01</span>
-        <a class="work-name" href="#" target="_blank"
-           rel="noopener noreferrer">Project Title 01</a>
-        <span class="work-category">Music</span>
-      </article>
-
-      <article class="work-item" data-category="video">
-        <span class="work-date">2025.08</span>
-        <a class="work-name" href="#" target="_blank"
-           rel="noopener noreferrer">Project Title 02</a>
-        <span class="work-category">Video</span>
-      </article>
-
-      <article class="work-item" data-category="other">
-        <span class="work-date">2025.03</span>
-        <a class="work-name" href="#" target="_blank"
-           rel="noopener noreferrer">Project Title 03</a>
-        <span class="work-category">Other</span>
-      </article>
-
+  <article class="release">
+    <img class="release-image" src="images/frostbite.jpg" alt="frostbite" loading="lazy">
+    <p class="release-title">frostbite</p>
+    <p class="release-date">2024/12/14</p>
+    <div class="release-links">
+      <a href="https://youtu.be/vkzPQ9rkLxo" target="_blank" rel="noopener noreferrer">MV →</a>
     </div>
-  </section>
+  </article>
 
-  <!-- PROFILE -->
-  <section id="profile" class="page">
-    <h1 class="page-title">Profile</h1>
-
-    <div class="profile-content">
-      <p>
-        Artist / Musician
-      </p>
-
-      <p>
-        Profile text goes here.
-      </p>
+  <article class="release">
+    <img class="release-image" src="images/片方だけが燃えている.jpg" alt="片方だけが燃えている" loading="lazy">
+    <p class="release-title">片方だけが燃えている</p>
+    <p class="release-date">2024/01/27</p>
+    <div class="release-links">
+      <a href="https://linkco.re/8q7vfe2P" target="_blank" rel="noopener noreferrer">Streaming →</a>
+      <a href="https://youtu.be/YyXbQGUfsnE" target="_blank" rel="noopener noreferrer">MV →</a>
     </div>
-  </section>
+  </article>
 
-  <!-- CONTACT -->
-  <section id="contact" class="page">
-    <h1 class="page-title">Contact</h1>
+  <!-- 2023 -->
 
-    <div class="contact-content">
-      <p>
-        For inquiries regarding music, collaborations
-        and other projects, please contact:
-      </p>
-
-      <p>
-        <a href="mailto:your-email@example.com">
-          your-email@example.com
-        </a>
-      </p>
+  <article class="release">
+    <img class="release-image" src="images/⋆.jpg" alt="⋆" loading="lazy">
+    <p class="release-title">⋆</p>
+    <p class="release-date">2023/11/10</p>
+    <div class="release-links">
+      <a href="https://youtu.be/sIGjWVEtQig" target="_blank" rel="noopener noreferrer">MV →</a>
     </div>
-  </section>
+  </article>
+
+  <article class="release">
+    <img class="release-image" src="images/LC.jpg" alt="LC" loading="lazy">
+    <p class="release-title">LC</p>
+    <p class="release-date">2023/06/08</p>
+    <div class="release-links">
+      <a href="https://bmu.lnk.to/LC_u" target="_blank" rel="noopener noreferrer">Streaming →</a>
+      <a href="https://youtu.be/q9whI0C9Tek" target="_blank" rel="noopener noreferrer">MV →</a>
+    </div>
+  </article>
+
+  <!-- 2022 -->
+
+  <article class="release">
+    <img class="release-image" src="images/dirtyspring.jpg" alt="dirtyspring" loading="lazy">
+    <p class="release-title">dirtyspring</p>
+    <p class="release-date">2022/07/15</p>
+    <div class="release-links">
+      <a href="https://linkco.re/6b6T420G?lang=ja" target="_blank" rel="noopener noreferrer">Streaming →</a>
+      <a href="https://youtu.be/sAPmoePOmeo" target="_blank" rel="noopener noreferrer">MV →</a>
+    </div>
+  </article>
+
+  <article class="release">
+    <img class="release-image" src="images/てんしみたいに.jpg" alt="てんしみたいに" loading="lazy">
+    <p class="release-title">てんしみたいに</p>
+    <p class="release-date">2022/06/03</p>
+    <div class="release-links">
+      <a href="https://linkco.re/hMUy7hQ8?lang=ja" target="_blank" rel="noopener noreferrer">Streaming →</a>
+      <a href="https://youtu.be/Y5qh8-a1v1k" target="_blank" rel="noopener noreferrer">MV →</a>
+    </div>
+  </article>
+
+</div>
+</section>
+
+
+<!-- Works -->
+
+<section id="works" class="page">
+<h1 class="page-title">Works</h1>
+
+<div class="filters">
+  <button class="filter active" data-filter="all">All</button>
+  <button class="filter" data-filter="compose">Compose</button>
+  <button class="filter" data-filter="lyrics">Lyrics</button>
+  <button class="filter" data-filter="arrange">Arrange</button>
+  <button class="filter" data-filter="remix">Remix</button>
+</div>
+
+<div class="works-list">
+
+  <article class="work-item" data-category="compose lyrics arrange" data-stream-image="images/Works/さめない.JPG">
+    <span class="work-date">2022/10</span>
+    <div class="work-info">
+      <div class="work-name">WaMi - さめない</div>
+      <div class="work-category">Compose / Lyrics / Arrange</div>
+      <div class="work-links">
+        <a href="https://youtu.be/x1DAPl8fu5o" target="_blank" rel="noopener noreferrer">YouTube →</a>
+        <a href="https://linkco.re/AR0smYg2?lang=ja" target="_blank" rel="noopener noreferrer">Streaming →</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="work-item" data-category="compose lyrics arrange" data-stream-image="images/Works/金色で.JPG">
+    <span class="work-date">2022/10</span>
+    <div class="work-info">
+      <div class="work-name">WaMi - 金色で</div>
+      <div class="work-category">Compose / Lyrics / Arrange</div>
+      <div class="work-links">
+        <a href="https://youtu.be/2DT5V-42J8o" target="_blank" rel="noopener noreferrer">YouTube →</a>
+        <a href="https://linkco.re/AR0smYg2?lang=ja" target="_blank" rel="noopener noreferrer">Streaming →</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="work-item" data-category="remix" data-stream-image="images/Works/That’s (my) life (ueil Remix).jpg">
+    <span class="work-date">2022/11</span>
+    <div class="work-info">
+      <div class="work-name">BCNO - That’s (my) life (ueil Remix)</div>
+      <div class="work-category">Remix</div>
+      <div class="work-links">
+        <a href="https://youtu.be/A5GgyVHUgec" target="_blank" rel="noopener noreferrer">YouTube →</a>
+        <a href="https://linkco.re/XQ5Eduvv?lang=ja" target="_blank" rel="noopener noreferrer">Streaming →</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="work-item" data-category="compose lyrics arrange" data-stream-image="images/Works/LCPOPYWorks.JPG">
+    <span class="work-date">2023/06</span>
+    <div class="work-info">
+      <div class="work-name">POPY - LC</div>
+      <div class="work-category">Compose / Lyrics / Arrange</div>
+      <div class="work-links">
+        <a href="https://youtu.be/q9whI0C9Tek" target="_blank" rel="noopener noreferrer">YouTube →</a>
+        <a href="https://bmu.lnk.to/LC_u" target="_blank" rel="noopener noreferrer">Streaming →</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="work-item" data-category="remix" data-stream-image="images/Works/異世界うぇあ (ueil Remix).JPG">
+    <span class="work-date">2024/03</span>
+    <div class="work-info">
+      <div class="work-name">長瀬有花 - 異世界うぇあ (ueil Remix)</div>
+      <div class="work-category">Remix</div>
+      <div class="work-links">
+        <a href="https://www.youtube.com/watch?v=dY4RpE20jSo&list=PL9fbKzGo07P5UXPAFsDGztGaQri3gHPOn&index=8" target="_blank" rel="noopener noreferrer">YouTube →</a>
+        <a href="https://linkco.re/tCG151FA?lang=ja" target="_blank" rel="noopener noreferrer">Streaming →</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="work-item" data-category="remix" data-stream-image="images/Works/邂逅 (ueil Remix).WEBP">
+    <span class="work-date">2024/03</span>
+    <div class="work-info">
+      <div class="work-name">花譜 - 邂逅 (ueil Remix)</div>
+      <div class="work-category">Remix</div>
+      <div class="work-links">
+        <a href="https://youtu.be/pHOxRGZvZrM" target="_blank" rel="noopener noreferrer">YouTube →</a>
+        <a href="https://phenomenon-record.lnk.to/Crazyforyou" target="_blank" rel="noopener noreferrer">Streaming →</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="work-item" data-category="compose lyrics arrange" data-stream-image="images/Works/ニウ.JPG">
+    <span class="work-date">2024/08</span>
+    <div class="work-info">
+      <div class="work-name">WaMi - ニウ</div>
+      <div class="work-category">Compose / Lyrics / Arrange</div>
+      <div class="work-links">
+        <a href="https://youtu.be/gUSHvNoNebA" target="_blank" rel="noopener noreferrer">YouTube →</a>
+        <a href="https://linkco.re/vr172ZUy" target="_blank" rel="noopener noreferrer">Streaming →</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="work-item" data-category="compose lyrics arrange" data-stream-image="images/Works/月の匂い feat.WaMi , ueil.JPG">
+    <span class="work-date">2024/09</span>
+    <div class="work-info">
+      <div class="work-name">ANMC - 月の匂い feat.WaMi , ueil</div>
+      <div class="work-category">Compose / Lyrics / Arrange</div>
+      <div class="work-links">
+        <a href="https://youtu.be/LDkPDI3xVLg" target="_blank" rel="noopener noreferrer">YouTube →</a>
+        <a href="https://anarchic-record.lnk.to/AScentofMoonEM" target="_blank" rel="noopener noreferrer">Streaming →</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="work-item" data-category="compose lyrics arrange" data-stream-image="images/Works/ホワイトバランス.JPG">
+    <span class="work-date">2025/04</span>
+    <div class="work-info">
+      <div class="work-name">KizunaAI - ホワイトバランス</div>
+      <div class="work-category">Compose / Lyrics / Arrange</div>
+      <div class="work-links">
+        <a href="https://youtu.be/7FCS_7xv0l8" target="_blank" rel="noopener noreferrer">YouTube →</a>
+        <a href="https://lnk.to/whitebalance" target="_blank" rel="noopener noreferrer">Streaming →</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="work-item" data-category="remix" data-stream-image="images/Works/ディス・イズ・ノット・ア・ラブソング (ueil Remix).JPG">
+    <span class="work-date">2026/02</span>
+    <div class="work-info">
+      <div class="work-name">RAY - ディス・イズ・ノット・ア・ラブソング (ueil Remix)</div>
+      <div class="work-category">Remix</div>
+      <div class="work-links">
+        <a href="https://youtu.be/dt1PLNS8kB4" target="_blank" rel="noopener noreferrer">YouTube →</a>
+        <a href="https://linkco.re/mDFAQ4s5?lang=ja" target="_blank" rel="noopener noreferrer">Streaming →</a>
+      </div>
+    </div>
+  </article>
+
+</div>
+</section>
+
+<section id="work-detail-page" class="page" aria-live="polite"></section>
+
+
+<!-- Profile -->
+
+<section id="profile" class="page">
+<h1 class="page-title">Profile</h1>
+<img class="profile-photo" src="images/ueila-sya.jpg" alt="ueil" loading="lazy">
+<div class="profile-content">
+  <p>ueil　　読み : ウエイル</p>
+  <p>(Vocaloid) Producer.<br>テクスチャーを探求した音像を基軸に、<br>静けさと変容、緊張と解放が交差する楽曲を制作している。<br>楽曲提供やRemixなども行う。</p>
+</div>
+</section>
+
+
+<!-- Contact -->
+
+<section id="contact" class="page">
+<h1 class="page-title">Contact</h1>
+<div class="contact-content">
+  <p><a href="mailto:ueilmm9@gmail.com">ueilmm9@gmail.com</a></p>
+  <div class="contact-notes">
+  <p>・個人,法人問わずお気軽にご相談下さい。</p>
+  <p>・ご依頼のメールのみお受けしております。</p>
+  <p>・その他お問い合わせにつきましては、<a href="https://x.com/ueilmm" target="_blank" rel="noopener noreferrer">X(DM)</a>へご連絡ください。</p>
+  </div>
+</div>
+</section>
+
+
+<!-- Links -->
+
+<section id="links" class="page">
+<h1 class="page-title">Links</h1>
+<div class="links-list">
+  <a href="https://www.youtube.com/@ueilmm" target="_blank" rel="noopener noreferrer">YouTube →</a>
+  <a href="https://x.com/ueilmm" target="_blank" rel="noopener noreferrer">X →</a>
+  <a href="https://www.nicovideo.jp/user/124336737" target="_blank" rel="noopener noreferrer">Niconico →</a>
+  <a href="https://space.bilibili.com/287098775" target="_blank" rel="noopener noreferrer">Bilibili →</a>
+</div>
+</section>
 
 </main>
 
-<footer>
-  © 2026 ARTIST
-</footer>
-
 <script>
+/* Page navigation */
+
 const pages = document.querySelectorAll(".page");
-const navLinks = document.querySelectorAll("[data-page]");
+
+const homeImageToggle = document.getElementById("home-image-toggle");
+let homeMessageTimer;
+function resetHomeImage() {
+  if (!homeImageToggle) return;
+  clearTimeout(homeMessageTimer);
+  homeImageToggle.querySelector(".home-image").hidden = false;
+  homeImageToggle.querySelector(".home-image-message").hidden = true;
+}
+
+if (homeImageToggle) {
+  const homeImage = homeImageToggle.querySelector(".home-image");
+  const homeMessage = homeImageToggle.querySelector(".home-image-message");
+  homeImageToggle.addEventListener("click", () => {
+    homeImage.hidden = true;
+    homeMessage.hidden = false;
+    clearTimeout(homeMessageTimer);
+    homeMessageTimer = setTimeout(() => {
+      homeMessage.hidden = true;
+    }, 1000);
+  });
+}
 
 function showPage(pageName) {
+  resetHomeImage();
+  const isWorkDetail = pageName.startsWith("work-detail-");
   const target = document.getElementById(pageName);
-
-  if (!target || !target.classList.contains("page")) {
-    pageName = "home";
-  }
+  const validPage = isWorkDetail
+    ? (target && target.classList.contains("work-item") ? "work-detail-page" : "works")
+    : (target && target.classList.contains("page") ? pageName : "home");
 
   pages.forEach(page => {
-    page.classList.toggle("active", page.id === pageName);
+    page.classList.toggle("active", page.id === validPage);
   });
+
+  if (validPage === "work-detail-page") renderWorkDetail(pageName);
 
   window.scrollTo(0, 0);
 }
 
-function navigate() {
-  const pageName = location.hash.slice(1) || "home";
-  showPage(pageName);
+function renderWorkDetail(detailId) {
+  const detail = document.getElementById("work-detail-page");
+  const item = detailId && document.getElementById(detailId);
+  if (!item) {
+    detail.innerHTML = '<h1 class="page-title">Works</h1><p>作品が見つかりません。</p><a class="work-detail-back" href="#works">← Works一覧へ戻る</a>';
+    return;
+  }
+  const links = [...item.querySelectorAll(".work-links a")];
+  const streamImage = item.dataset.streamImage;
+  detail.innerHTML = `<a class="work-detail-back" href="#works">← Works一覧へ戻る</a>${streamImage ? `<img class="work-detail-image" src="${streamImage}" alt="" loading="lazy">` : '<div class="work-detail-image-placeholder" aria-hidden="true"></div>'}<div class="work-detail-links"></div>`;
+  const linkArea = detail.querySelector(".work-detail-links");
+  links.forEach(link => {
+    const copy = document.createElement("a");
+    copy.href = link.href;
+    copy.target = "_blank";
+    copy.rel = "noopener noreferrer";
+    copy.textContent = link.textContent;
+    linkArea.append(copy);
+  });
 }
 
-navLinks.forEach(link => {
+function navigate() {
+  showPage(location.hash.slice(1) || "home");
+}
+
+document.querySelectorAll("[data-page]").forEach(link => {
   link.addEventListener("click", event => {
-    const pageName = link.dataset.page;
-
-    if (!pageName) return;
-
     event.preventDefault();
+
+    const pageName = link.dataset.page;
 
     if (location.hash === "#" + pageName) {
       showPage(pageName);
@@ -432,10 +708,24 @@ navLinks.forEach(link => {
   });
 });
 
+const worksList = document.querySelector(".works-list");
+const workItemsInDateOrder = [...document.querySelectorAll(".work-item")]
+  .sort((a, b) => b.querySelector(".work-date").textContent.localeCompare(a.querySelector(".work-date").textContent));
+workItemsInDateOrder.forEach((item, index) => {
+  worksList.append(item);
+  const title = item.querySelector(".work-name");
+  const label = title.textContent.trim();
+  item.id = `work-detail-${index + 1}`;
+  title.innerHTML = "<a></a>";
+  title.querySelector("a").href = `#${item.id}`;
+  title.querySelector("a").textContent = label;
+});
+
 window.addEventListener("hashchange", navigate);
 navigate();
 
 /* Works category filter */
+
 const filterButtons = document.querySelectorAll(".filter");
 const workItems = document.querySelectorAll(".work-item");
 
@@ -448,11 +738,12 @@ filterButtons.forEach(button => {
     });
 
     workItems.forEach(work => {
-      work.style.display =
-        selected === "all" ||
-        work.dataset.category === selected
-          ? "grid"
-          : "none";
+      const categories = work.dataset.category.split(" ");
+
+      const shouldShow =
+        selected === "all" || categories.includes(selected);
+
+      work.style.display = shouldShow ? "grid" : "none";
     });
   });
 });
